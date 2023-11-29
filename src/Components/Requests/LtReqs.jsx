@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import axios from "axios";
 import {  useSnackbar } from "../SnackBar";
+import NoneToSHow from "../NoneToSHow";
 
 function LtReqs() {
   const [view, setView] = useState("pending");
@@ -118,7 +119,7 @@ function LtReqs() {
           </li>
         </ul>
       </div>
-      <div className="flex flex-col gap-4 w-full max-h-[90%] overflow-y-auto ">
+      <div className="flex flex-col gap-4 items-center w-full max-h-[90%] overflow-y-auto ">
         {loading ? (
           <div role="status">
             <svg
@@ -154,7 +155,7 @@ function LtReqs() {
                 );
               })
             ) : (
-              <div>none to show</div>
+              <NoneToSHow msg='No Requests at the moment' />
             )}
           </>
         )}

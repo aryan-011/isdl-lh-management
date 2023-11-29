@@ -3,6 +3,7 @@ import Navbar from '../Navbar/Navbar'
 import { useSnackbar } from '../SnackBar';
 import axios from 'axios';
 import Card from '../Requests/Card';
+import NoneToSHow from '../NoneToSHow';
 
 function ReqLogs() {
     const [view, setView] = useState("pending");
@@ -93,7 +94,7 @@ function ReqLogs() {
           </li>
         </ul>
       </div>
-      <div className="flex flex-col gap-4 w-full max-h-[90%] overflow-y-auto ">
+      <div className="flex flex-col gap-4  items-center w-full max-h-[90%] overflow-y-auto ">
         {loading ? (
           <div role="status">
             <svg
@@ -128,7 +129,7 @@ function ReqLogs() {
                 );
               })
             ) : (
-              <div>none to show</div>
+              <NoneToSHow msg='No Request at the moment' />
             )}
           </>
         )}

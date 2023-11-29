@@ -57,7 +57,7 @@ const Form = () => {
       endDate: new Date(`${data.endDate}`).toDateString(),
       reason: data.reason,
       clubName: data.club,
-      bookedBy: localStorage.getItem("role"),
+      bookedBy: localStorage.getItem("email"),
       avSupport: data.av ? "yes" : "no",
       startTime: data.timeIn,
       endTime: data.timeOut,

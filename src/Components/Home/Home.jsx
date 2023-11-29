@@ -4,6 +4,7 @@ import axios from "axios";
 import Footer from "../Footer/Footer";
 import BookedLtCard from "../HomePage/BookedLtCard";
 import Navbar from "../Navbar/Navbar";
+import NoneToSHow from "../NoneToSHow";
 
 function Home() {
   const [approvedReq, setApprovedReqs] = useState();
@@ -59,7 +60,7 @@ function Home() {
                 return <BookedLtCard data={data} key={i} />;
               })
             ) : (
-              <div> none approved reqs show</div>
+              <NoneToSHow msg='No Approved Lts' />
             )}
           </div>
         )}
