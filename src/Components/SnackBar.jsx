@@ -54,7 +54,7 @@ const SnackbarProvider = ({ children, duration = 3000 }) => {
             initial={{ x: "-50%" }}
             animate={{ x: "0%" }}
             exit={{ x: "-110%" }}
-            className={`fixed z-50 bottom-8 w-[350px] left-0 rounded-r-lg bg-grey-900 border border-[#B1725F] text-grey-50 ${snackbarData.useCase}`}
+            className={`fixed z-50 bottom-8 w-[350px] left-0 rounded-r-lg text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 border border-[#B1725F] text-grey-50 ${snackbarData.useCase}`}
           >
             <div
               className={` h-2 ${

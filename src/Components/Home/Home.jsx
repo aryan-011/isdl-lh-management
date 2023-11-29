@@ -53,10 +53,10 @@ function Home() {
             <span class="sr-only">Loading...</span>
           </div>
         ) : (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 items-center justify-center">
             {approvedReq?.length ? (
-              approvedReq.map((data) => {
-                return <BookedLtCard data={data} />;
+              approvedReq.map((data,i) => {
+                return <BookedLtCard data={data} key={i} />;
               })
             ) : (
               <div> none approved reqs show</div>
