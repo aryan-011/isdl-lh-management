@@ -28,6 +28,7 @@ function App() {
   const navigate = useNavigate()
   const cookie=useCookies()
   const [auth,setAuth]=useState(false)
+  const role=localStorage.getItem('role')
   const validateToken= async ()=>{
     try{
       await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user`,{withCredentials:true}).then((resp)=>{
@@ -61,9 +62,9 @@ function App() {
     <SnackbarProvider>
         <Routes>
           {auth && <Route path="/" element={<Home />} />  }
-          {auth &&  <Route path="/requests" element={<Request />} /> }
-          {auth && <Route path="/book" element={<BookLt />} /> }
-          {auth && <Route path="/reqLogs" element={<ReqLogs />} /> }
+          {auth && (role==='systemAdministrator' || role==='assistantRegistrar' || role==='facultyMentor') &&  <Route path="/requests" element={<Request />} /> }
+          {auth && role==='gsec' && role!=='guard'  && <Route path="/book" element={<BookLt />} /> }
+          {auth &&  role==='gsec'&& role!=='guard' && <Route path="/reqLogs" element={<ReqLogs />} /> }
           <Route path="/login" element={<Login />} />
 
           <Route path="/logout" element={<Logout/>} />

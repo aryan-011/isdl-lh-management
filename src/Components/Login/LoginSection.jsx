@@ -60,6 +60,9 @@ function LoginSection() {
           setLoading(false)
         }
         else{
+          localStorage.setItem('role',resp?.data.user.role)
+          localStorage.setItem('id',resp?.data.user.id)
+          localStorage.setItem('email',resp?.data.user.email)
           new Promise(resolve => setTimeout(resolve, 2000));
           navigate('/')
           setLoading(false)

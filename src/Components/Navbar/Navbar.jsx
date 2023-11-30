@@ -85,7 +85,7 @@ function Navbar() {
                 </NavLink>
               </li>
             )}
-            {role !== "gsec" && (
+            {(role==='systemAdministrator' || role==='assistantRegistrar' || role==='facultyMentor') && (
               <li>
                 <NavLink
                   to="/requests"
