@@ -137,21 +137,21 @@ function LoginSection() {
                       required=""
                     />
                   </div>
-                  <div className="ml-3 text-sm">
+                  {/* <div className="ml-3 text-sm">
                     <label
                       htmlFor="remember"
                       className="text-gray-500 dark:text-gray-300"
                     >
                       Remember me
                     </label>
-                  </div>
+                  </div> */}
                 </div>
-                <a
+                {/* <a
                   href="#"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
-                </a>
+                </a> */}
               </div>
               <button
                 type="submit"
