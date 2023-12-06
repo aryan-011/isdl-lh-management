@@ -65,6 +65,7 @@ const Form = () => {
       pdf:data.pdf
     };
 
+   
     // Parse the endDate string into a Date object
     const endDate = new Date(bookingDetails.endDate)
     
@@ -87,6 +88,11 @@ const Form = () => {
     bookingDetails.startDate=startDate
     bookingDetails.endDate=endDate
     console.log(bookingDetails)
+    if(bookingDetails.endDate<=bookingDetails.startDate){
+      showSnackbar({message:'Invalid time',useCase:'info'})
+      return;
+
+    }
     // console.log(endDate>startDate);
     
     try{
@@ -139,7 +145,7 @@ const Form = () => {
             <Datepicker
               options={{
                 ...options,
-                minDate: new Date(getValues("startDate")),
+                // minDate: new Date(getValues("startDate")),
                 title: "End Date",
               }}
               value={
