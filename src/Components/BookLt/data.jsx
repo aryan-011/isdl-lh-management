@@ -32,7 +32,7 @@ export const options = {
 	clearBtn: true,
 	clearBtnText: "Clear",
 	maxDate: new Date("2030-01-01"),
-	minDate: new Date('2023-12-6'),
+	minDate: new Date(),
 	theme: {
 		background: "dark:bg-[#374151]",
 		todayBtn: "",
