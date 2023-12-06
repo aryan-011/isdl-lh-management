@@ -32,12 +32,19 @@ function App() {
   const validateToken= async ()=>{
     try{
       await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user`,{withCredentials:true}).then((resp)=>{
-        setAuth(true)
-        if(localStorage){
-          localStorage.setItem('role',resp?.data.user.role)
-          localStorage.setItem('id',resp?.data.user.userId)
-          localStorage.setItem('email',resp?.data.user.email)
+        if(resp.status===200){
+          setAuth(true)
+          if(localStorage){
+            localStorage.setItem('role',resp?.data.user.role)
+            localStorage.setItem('id',resp?.data.user.userId)
+            localStorage.setItem('email',resp?.data.user.email)
+            // window.location.reload(true)
+          }
+          else{
+
+          }
         }
+        
       }).catch(function (err){
         navigate('/login')
       })

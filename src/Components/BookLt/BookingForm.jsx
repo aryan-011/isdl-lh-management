@@ -62,6 +62,7 @@ const Form = () => {
       startTime: data.timeIn,
       endTime: data.timeOut,
       facultyMentorEmail: "faculty@lnmiit.ac.in",
+      pdf:data.pdf
     };
 
     // Parse the endDate string into a Date object
@@ -142,7 +143,7 @@ const Form = () => {
                 title: "End Date",
               }}
               value={
-                new Date(getValues("startDate")) >
+                new Date(getValues("startDate")) >=
                 new Date(getValues("endDate"))
                   ? new Date(getValues("startDate"))
                   : new Date(getValues("endDate"))
@@ -196,9 +197,8 @@ const Form = () => {
               Night extension list*
             </label>
             <input
-              type="file"
+              type="url"
               className="rounded-md border p-2"
-              accept="application/pdf"
               {...register("pdf", {
                 required: isAfterInTime ? true : false,
               })}

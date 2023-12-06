@@ -80,7 +80,12 @@ function Card(props) {
               <p className="mb-2 text-gray-500 dark:text-gray-400">
                 Assistant Registrar approval :<span> {data.assistantRegistrarStatus}</span>
               </p>
-              
+              {
+                data.pdf &&
+              <a className="mb-2 text-gray-500 dark:text-gray-400" href={data?.pdf}>
+                Assistant Registrar approval :<span> {data.assistantRegistrarStatus}</span>
+              </a>
+              }
               {(props.view==='pending' && props.use==='notgsec') && 
              
               <section className=" flex justify-end p-2 pb-0">
