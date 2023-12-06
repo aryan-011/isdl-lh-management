@@ -61,7 +61,7 @@ const Form = () => {
       avSupport: data.av ? "yes" : "no",
       startTime: data.timeIn,
       endTime: data.timeOut,
-      facultyMentorEmail: "21ucs018@lnmiit.ac.in",
+      facultyMentorEmail: "faculty@lnmiit.ac.in",
     };
 
     // Parse the endDate string into a Date object
