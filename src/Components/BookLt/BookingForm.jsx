@@ -47,7 +47,7 @@ const Form = () => {
   };
 
   const prepareBookingDetails = (data) => {
-    const bookingDetails = {
+    let bookingDetails = {
       ltNumber: data.lectureHall,
       startDate: new Date(data.startDate).toDateString(),
       endDate: new Date(data.endDate).toDateString(),
@@ -82,7 +82,7 @@ const Form = () => {
 
     const startDate = new Date(bookingDetails.startDate);
     adjustDateTime(startDate, bookingDetails.startTime);
-    
+
     bookingDetails.startDate = startDate;
     bookingDetails.endDate = endDate;
 
