@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { lt, clubs, options } from "./data";
 import Datepicker from "tailwind-datepicker-react";
 import axios from "axios";
@@ -9,7 +9,6 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    control,
     setValue,
     getValues,
     formState: { errors },
@@ -19,42 +18,39 @@ const Form = () => {
     timeOut: "22:30",
   });
 
-  const baseURL = process.env.REACT_APP_BACKEND_URL;
-  const startTime = getValues("timeIn");
-  const outTime = getValues("timeOut");
-  const { showSnackbar } = useSnackbar();
   const [isAfterInTime, setIsAfterInTime] = useState(false);
   const [show, setShow] = useState(false);
   const [showend, setShowEnd] = useState(false);
+  const { showSnackbar } = useSnackbar();
+  const baseURL = process.env.REACT_APP_BACKEND_URL;
 
   const handleStartChange = (selectedDate) => {
-    // console.log(selectedDate);
     setValue("startDate", selectedDate.toString());
     setValue("endDate", selectedDate.toString());
   };
+
   const handleEndChange = (selectedDate) => {
-    // console.log(selectedDate);
     setValue("endDate", selectedDate.toString());
   };
-  //   console.log(getValues('startDate'))
+
   const handleClose = (state) => {
     setShow(state);
   };
+
   const handleendClose = (state) => {
     setShowEnd(state);
   };
+
   const handleTimeChange = (event) => {
     const endTime = event.target.value;
-    // console.log(endTime >= "22:45" || endTime < "6:00");
     setIsAfterInTime(endTime >= "22:45" || endTime < "06:00" ? true : false);
-    // setIsAfterInTime()
   };
 
-  const onSubmit = (data) => {
+  const prepareBookingDetails = (data) => {
     const bookingDetails = {
       ltNumber: data.lectureHall,
-      startDate: new Date(`${data.startDate}`).toDateString(),
-      endDate: new Date(`${data.endDate}`).toDateString(),
+      startDate: new Date(data.startDate).toDateString(),
+      endDate: new Date(data.endDate).toDateString(),
       reason: data.reason,
       clubName: data.club,
       bookedBy: localStorage.getItem("email"),
@@ -62,62 +58,66 @@ const Form = () => {
       startTime: data.timeIn,
       endTime: data.timeOut,
       facultyMentorEmail: "faculty@lnmiit.ac.in",
-      pdf:data.pdf
     };
 
-   
-    // Parse the endDate string into a Date object
-    const endDate = new Date(bookingDetails.endDate)
-    
-    const [hours, minutes, seconds] = bookingDetails.endTime.split(":").map(Number);
-    console.log(hours,minutes,seconds)
-    // Set the time components to the endDate
-    endDate.setHours(hours);
-    endDate.setMinutes(minutes);
-    endDate.setSeconds(0);
-    // console.log(endDate)
-
-    const startDate = new Date(bookingDetails.startDate)
-    
-    const [hrs, min, sec] = bookingDetails.startTime.split(":").map(Number);
-
-    // Set the time components to the endDate
-    startDate.setHours(hrs);
-    startDate.setMinutes(min);
-    startDate.setSeconds(0);
-    bookingDetails.startDate=startDate
-    bookingDetails.endDate=endDate
-    console.log(bookingDetails)
-    if(bookingDetails.endDate<=bookingDetails.startDate){
-      showSnackbar({message:'Invalid time',useCase:'info'})
-      return;
-
+    if (isAfterInTime) {
+      bookingDetails = { ...bookingDetails, pdf: data.pdf };
     }
-    // console.log(endDate>startDate);
-    
-    try{
-      
-          axios.post(`${baseURL}/gsec/makerequest`,{...bookingDetails},{withCredentials:true}).then((resp)=>{
-            if(resp.status===200){
-              if(resp.data.success){
-                showSnackbar({message:'Booking Request sent succesfully',useCase:'success'})
-              }
-              else{
-                showSnackbar({message:resp.data.msg,useCase:'info'})
-              }
-            }
-            else{
-              showSnackbar({message:'try again',useCase:'error'})
-            }
-          }).catch(function (err){
-            showSnackbar({message:'try again',useCase:'error'})
-          })
-    }
-    catch(err){
 
-    }
+    return bookingDetails;
   };
-  // console.log(getValues('timeIn'))
+
+  const adjustDateTime = (dateTime, time) => {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    dateTime.setHours(hours);
+    dateTime.setMinutes(minutes);
+    dateTime.setSeconds(0);
+  };
+
+  const onSubmit = (data) => {
+    let bookingDetails = prepareBookingDetails(data);
+
+    const endDate = new Date(bookingDetails.endDate);
+    adjustDateTime(endDate, bookingDetails.endTime);
+
+    const startDate = new Date(bookingDetails.startDate);
+    adjustDateTime(startDate, bookingDetails.startTime);
+    
+    bookingDetails.startDate = startDate;
+    bookingDetails.endDate = endDate;
+
+    if (endDate <= startDate) {
+      showSnackbar({ message: "Invalid time", useCase: "info" });
+      return;
+    }
+
+    try {
+      axios
+        .post(
+          `${baseURL}/gsec/makerequest`,
+          { ...bookingDetails },
+          { withCredentials: true }
+        )
+        .then((resp) => {
+          if (resp.status === 200) {
+            if (resp.data.success) {
+              showSnackbar({
+                message: "Booking Request sent successfully",
+                useCase: "success",
+              });
+            } else {
+              showSnackbar({ message: resp.data.msg, useCase: "info" });
+            }
+          } else {
+            showSnackbar({ message: "Try again", useCase: "error" });
+          }
+        })
+        .catch(function (err) {
+          showSnackbar({ message: "Try again", useCase: "error" });
+        });
+    } catch (err) {}
+  };
+
   return (
     <form
       className="flex flex-col items-center gap-4 w-fit border border-gray-300 dark:border-gray-500 rounded-lg  h-full"
@@ -145,7 +145,9 @@ const Form = () => {
             <Datepicker
               options={{
                 ...options,
-                // minDate: new Date(getValues("startDate")),
+                minDate: new Date(
+                  new Date(getValues("startDate")).toISOString().split("T")[0]
+                ),
                 title: "End Date",
               }}
               value={

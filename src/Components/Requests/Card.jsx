@@ -82,8 +82,8 @@ function Card(props) {
               </p>
               {
                 data.pdf &&
-              <a className="mb-2 text-gray-500 dark:text-gray-400" href={data?.pdf}>
-                Assistant Registrar approval :<span> {data.assistantRegistrarStatus}</span>
+              <a className="mb-2 text-gray-500 dark:text-gray-400" target="_blank" href={data?.pdf}>
+                Night Extension pdf :<span className="text-blue-500"> {data?.pdf}</span>
               </a>
               }
               {(props.view==='pending' && props.use==='notgsec') && 
